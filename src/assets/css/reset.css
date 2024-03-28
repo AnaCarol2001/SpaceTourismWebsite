@@ -1,0 +1,70 @@
+/* ----------------------------- */
+/* Reset                         */
+/* ----------------------------- */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body,
+.body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: 400;
+}
+
+body,
+.body {
+  font-family: var(--ff-sans-normal);
+  font-size: var(--fs-400);
+  background-color: rgb(var(--clr-dark));
+  color: rgba(var(--clr-white));
+  line-height: 1.5; /*default 1.4 - small*/
+  min-height: 100svh;
+
+  display: grid;
+  grid-template-rows: min-content 1fr;
+
+  overflow-x: hidden;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea {
+  font: inherit;
+}
+
+/*remove animations for people who've turned them off*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

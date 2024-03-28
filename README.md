@@ -20,3 +20,11 @@ Users should be able to:
 - CSS Grid
 - Mobile-first workflow
 - JavaScript
+
+### Useful resources
+
+- [A (more) Modern CSS Reset](https://andy-bell.co.uk/a-more-modern-css-reset/)
+- [Create a Design System with CSS - Web Development Course](https://youtu.be/lRaL-8qZ0mM?si=rvT_cV8RazYcndTv)
+- [Responsive navbar tutorial using HTML CSS & JS](https://youtu.be/HbBMp6yUXO0?si=yUO4wXRsQ8tuvbkK)
+- [Web Development for Beginners by Microsoft](https://github.com/microsoft/Web-Dev-For-Beginners)
+- [Typical Device Breakpoints](https://www.w3schools.com/howto/howto_css_media_query_breakpoints.asp)

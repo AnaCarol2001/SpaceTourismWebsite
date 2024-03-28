@@ -1,0 +1,12 @@
+{
+  "name": "spacetourismwebsite",
+  "version": "1.0.0",
+  "description": "This is a solution to the Space tourism website challenge on Frontend Mentor. Frontend Mentor challenges help you improve your coding skills by building realistic projects.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx lite-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

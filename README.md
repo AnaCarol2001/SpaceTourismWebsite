@@ -28,3 +28,5 @@ Users should be able to:
 - [Responsive navbar tutorial using HTML CSS & JS](https://youtu.be/HbBMp6yUXO0?si=yUO4wXRsQ8tuvbkK)
 - [Web Development for Beginners by Microsoft](https://github.com/microsoft/Web-Dev-For-Beginners)
 - [Typical Device Breakpoints](https://www.w3schools.com/howto/howto_css_media_query_breakpoints.asp)
+- [Location: hash property](https://developer.mozilla.org/en-US/docs/Web/API/Location/hash)
+- [Create Accessible Tabs with HTML, CSS & JS](https://youtu.be/fI9VM5zzpu8?si=17Q90d1hg1MFGewa)

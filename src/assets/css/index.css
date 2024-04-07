@@ -22,7 +22,7 @@ body,
 .home {
   background-image: url(../images/home/background-home-mobile.jpg);
 }
-.destination {
+.destinations {
   background-image: url(../images/destination/background-destination-mobile.jpg);
 }
 
@@ -155,9 +155,12 @@ body,
   max-width: 60%;
 }
 
-.grid-container--destination > .tab-list {
-  --gap: 1rem;
+.grid-container--destination > .tab-container {
   grid-area: tab;
+}
+
+.grid-container--destination .tab-list {
+  --gap: 1rem;
 }
 
 .grid-container--destination > .destination-info {
@@ -182,7 +185,7 @@ body,
     justify-content: space-evenly;
   }
 
-  .grid-container--destination > .tab-list {
+  .grid-container--destination .tab-list {
     --gap: 2.5rem;
   }
 }
@@ -197,7 +200,7 @@ body,
     align-content: center;
   }
 
-  .grid-container--destination > .tab-list {
+  .grid-container--destination > .tab-container {
     width: 100%;
     max-width: 500px;
   }
@@ -232,6 +235,7 @@ body,
 }
 
 .grid-container--crew > .dot-indicators {
+  margin-block: 2rem;
   grid-area: tab;
 }
 
@@ -271,6 +275,10 @@ body,
     max-width: 100%;
     align-self: end;
     justify-self: center;
+  }
+
+  .grid-container--crew > .dot-indicators {
+    margin-block: unset;
   }
 }
 

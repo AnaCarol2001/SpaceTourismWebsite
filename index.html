@@ -28,7 +28,7 @@
     <title>Space tourism</title>
 
     <!-- Scripts -->
-    <script src="./src/app.js" defer></script>
+    <script type="module" src="./src/app.js" defer></script>
     <script src="./src/navigation.js" defer></script>
   </head>
   <!-- classes: home destination crew technology-->
@@ -67,7 +67,7 @@
             <li>
               <a
                 class="ff-sans-cond uppercase text-white letter-spacing-2"
-                href="/destination"
+                href="/destinations"
                 ><span aria-hidden="true">01</span> Destination</a
               >
             </li>
@@ -112,52 +112,66 @@
       </main>
     </template>
 
-    <template id="destination">
+    <template id="destinations">
       <main id="main" class="grid-container grid-container--destination flow">
-        <h1 class="numbered-title">
+        <h1 id="tabs-title" class="numbered-title">
           <span aria-hidden="true">01 </span>Pick your destination
         </h1>
-        <picture>
+        <picture id="picture">
           <source
+            data-id="webp"
             srcset="/src/assets/images/destination/image-moon.webp"
             type="image/webp"
           />
           <img
+            data-id="png"
             src="./src/assets/images/destination/image-moon.png"
             alt="The moon"
           />
         </picture>
-
-        <div class="tab-list underline-indicators flex">
-          <button
-            aria-selected="true"
-            class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
+        <div class="tab-container">
+          <ul
+            class="underline-indicators tab-list flex"
+            role="tablist"
+            aria-labelledby="tabs-title"
           >
-            Moon
-          </button>
-          <button
-            aria-selected="false"
-            class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
-          >
-            Mars
-          </button>
-          <button
-            aria-selected="false"
-            class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
-          >
-            Europa
-          </button>
-          <button
-            aria-selected="false"
-            class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
-          >
-            Titan
-          </button>
+            <li>
+              <a
+                href="#Moon"
+                class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
+                >Moon</a
+              >
+            </li>
+            <li>
+              <a
+                href="#Mars"
+                class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
+              >
+                Mars
+              </a>
+            </li>
+            <li>
+              <a
+                href="#Europa"
+                class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
+              >
+                Europa
+              </a>
+            </li>
+            <li>
+              <a
+                href="#Titan"
+                class="uppercase ff-sans-cond fs-300 letter-spacing-2 text-accent"
+              >
+                Titan
+              </a>
+            </li>
+          </ul>
         </div>
 
-        <article class="destination-info flow">
-          <h2 class="fs-800 uppercase ff-serif">Moon</h2>
-          <p class="text-accent">
+        <article class="destination-info flow" data-id="article">
+          <h2 data-id="name" class="fs-800 uppercase ff-serif">Moon</h2>
+          <p data-id="description" class="text-accent">
             See our planet as you’ve never seen it before. A perfect relaxing
             trip away to help regain perspective and come back refreshed. While
             you’re there, take in some history by visiting the Luna 2 and Apollo
@@ -171,7 +185,7 @@
               >
                 Avg. distance
               </h3>
-              <p class="ff-serif uppercase">384,400 km</p>
+              <p data-id="distance" class="ff-serif uppercase">384,400 km</p>
             </div>
             <div>
               <h3
@@ -179,7 +193,7 @@
               >
                 Est. travel time
               </h3>
-              <p class="ff-serif uppercase">3 days</p>
+              <p data-id="travel" class="ff-serif uppercase">3 days</p>
             </div>
           </div>
         </article>
@@ -188,40 +202,54 @@
 
     <template id="crew">
       <main id="main" class="grid-container grid-container--crew flow">
-        <h1 class="numbered-title">
+        <h1 id="tabs-title" class="numbered-title">
           <span aria-hidden="true">02 </span>Meet your crew
         </h1>
-        <div class="dot-indicators flex">
-          <button aria-selected="true">
-            <span class="sr-only">The Commander</span>
-          </button>
-          <button aria-selected="false">
-            <span class="sr-only">Mission Specialist</span>
-          </button>
-          <button aria-selected="false">
-            <span class="sr-only">Pilot</span>
-          </button>
-          <button aria-selected="false">
-            <span class="sr-only">Flight Engineer</span>
-          </button>
-        </div>
-        <article class="crew-details flow">
+        <ul
+          class="dot-indicators flex"
+          role="tablist"
+          aria-labelledby="tabs-title"
+        >
+          <li>
+            <a href="#Douglas_Hurley"
+              ><span class="sr-only">The Commander</span></a
+            >
+          </li>
+          <li>
+            <a href="#Mark_Shuttleworth"
+              ><span class="sr-only">Mission Specialist</span></a
+            >
+          </li>
+          <li>
+            <a href="#Victor_Glover"><span class="sr-only">Pilot</span></a>
+          </li>
+          <li>
+            <a href="#Anousheh_Ansari"
+              ><span class="sr-only">Flight Engineer</span></a
+            >
+          </li>
+        </ul>
+        <article class="crew-details flow" data-id="article">
           <header class="flow flow--space-small">
-            <h2 class="ff-serif fs-600 text-accent uppercase">Commander</h2>
-            <p class="fs-700 uppercase">Douglas Hurley</p>
+            <h2 data-id="role" class="ff-serif fs-600 text-accent uppercase">
+              Commander
+            </h2>
+            <p data-id="name" class="fs-700 uppercase">Douglas Hurley</p>
           </header>
-          <p class="text-accent">
+          <p data-id="bio" class="text-accent">
             Douglas Gerald Hurley is an American engineer, former Marine Corps
             pilot and former NASA astronaut. He launched into space for the
             third time as commander of Crew Dragon Demo-2.
           </p>
         </article>
-        <picture>
+        <picture id="picture">
           <source
+            data-id="webp"
             srcset="./src/assets/images/crew/image-douglas-hurley.webp"
             type="image/webp"
           />
           <img
+            data-id="png"
             src="./src/assets/images/crew/image-douglas-hurley.png"
             alt="Douglas Hurley"
           />
@@ -231,29 +259,33 @@
 
     <template id="technology">
       <main id="main" class="grid-container grid-container--technology flow">
-        <h1 class="numbered-title">
+        <h1 id="tabs-title" class="numbered-title">
           <span aria-hidden="true">03 </span>Space launch 101
         </h1>
 
-        <div class="number-indicators flex">
-          <button class="fs-600 bg-dark text-white" aria-selected="true">
-            1
-          </button>
-          <button class="fs-600 bg-dark text-white" aria-selected="false">
-            2
-          </button>
-          <button class="fs-600 bg-dark text-white" aria-selected="false">
-            3
-          </button>
-        </div>
-        <article class="technology-details flow">
+        <ul
+          class="number-indicators flex"
+          role="tablist"
+          aria-labelledby="tabs-title"
+        >
+          <li class="fs-600 bg-dark text-white" aria-selected="true">
+            <a href="#Launch_vehicle">1</a>
+          </li>
+          <li class="fs-600 bg-dark text-white" aria-selected="false">
+            <a href="#Spaceport">2</a>
+          </li>
+          <li class="fs-600 bg-dark text-white" aria-selected="false">
+            <a href="#Space_capsule">3</a>
+          </li>
+        </ul>
+        <article class="technology-details flow" data-id="article">
           <header class="flow flow--space-small">
             <h2 class="ff-serif fs-600 text-accent uppercase">
               The terminology...
             </h2>
-            <p class="fs-700 uppercase">Space capsule</p>
+            <p class="fs-700 uppercase" data-id="name">Space capsule</p>
           </header>
-          <p class="text-accent">
+          <p data-id="description" class="text-accent">
             A space capsule is an often-crewed spacecraft that uses a blunt-body
             reentry capsule to reenter the Earth's atmosphere without wings. Our
             capsule is where you'll spend your time during the flight. It
@@ -262,14 +294,16 @@
           </p>
         </article>
 
-        <picture>
+        <picture id="picture">
           <source
+            data-id="landscape"
             media="(max-width:991px)"
             srcset="
               ./src/assets/images/technology/image-space-capsule-landscape.jpg
             "
           />
           <img
+            data-id="portrait"
             src="./src/assets/images/technology/image-space-capsule-portrait.jpg"
             alt="space-capsule"
           />

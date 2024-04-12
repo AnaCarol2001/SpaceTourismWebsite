@@ -76,7 +76,7 @@ body,
   width: 100%;
   max-width: 1440px;
   align-self: start;
-
+  justify-self: center;
   text-align: center;
   display: grid;
   padding-inline: var(--container-pad, 1rem);
@@ -121,6 +121,7 @@ body,
 
 .grid-container--home > .home-info {
   grid-area: info;
+  animation: dropDown 1s ease-in, fade 1s linear alternate;
 }
 
 .grid-container--home > .home-btn {
@@ -165,6 +166,7 @@ body,
 
 .grid-container--destination > .destination-info {
   grid-area: info;
+  max-width: 500px;
 }
 
 .destination-meta {

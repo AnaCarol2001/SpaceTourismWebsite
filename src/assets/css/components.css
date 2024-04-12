@@ -33,6 +33,9 @@
   border-radius: inherit;
   opacity: 0;
   transition: opacity 500ms linear, transform 750ms ease-in-out;
+  animation: pulse 3s ease-in-out, fade 2s linear alternate;
+  animation-delay: 500ms;
+  animation-iteration-count: 2;
 }
 
 .large-btn:hover::after,

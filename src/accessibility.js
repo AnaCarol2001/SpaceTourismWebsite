@@ -55,3 +55,15 @@ function moveRight(tabList) {
     currentTab.parentElement.nextElementSibling.querySelector("a").click();
   }
 }
+
+document.getElementById("skip").addEventListener("click", (e) => {
+  e.preventDefault();
+  const jumpToContent = document.querySelector(
+    `${e.target.getAttribute("href")}`
+  );
+  jumpToContent.setAttribute("tabindex", "-1");
+
+  let y = jumpToContent.getBoundingClientRect().top + window.scrollY - 15;
+  window.scrollTo(0, y);
+  jumpToContent.focus();
+});

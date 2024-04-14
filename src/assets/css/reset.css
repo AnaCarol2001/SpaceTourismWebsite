@@ -46,15 +46,21 @@ body,
 }
 
 img,
-picture {
+picture,
+svg {
   max-width: 100%;
   display: block;
+  height: auto;
 }
 
 input,
 button,
 textarea {
   font: inherit;
+}
+
+[hidden="true"] {
+  display: none !important;
 }
 
 /*remove animations for people who've turned them off*/

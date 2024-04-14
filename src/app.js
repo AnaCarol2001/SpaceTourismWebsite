@@ -66,6 +66,7 @@ const ROUTES = {
 window.onload = async () => {
   tabsPanelContent = await fetchData("src/data.json");
   renderPage();
+  document.getElementById("loading").setAttribute("hidden", "true");
 };
 
 // Update the UI when user navigates the session history (go back/forward)
@@ -173,6 +174,9 @@ function switchTabHandle(e) {
 }
 
 function updateURLHash(hash) {
+  if (!ROUTES[window.location.pathname].hashes[hash]) {
+    throw new Error(`Route hash ${hash} does not exist`);
+  }
   const newPathHash = window.location.pathname + hash;
   window.history.pushState(
     {},
@@ -212,20 +216,9 @@ function renderActiveTabPanel() {
   );
 
   const $tabArticle = document.querySelector('[data-id="article"]');
-  const $tabImg = document.getElementById("picture");
-  const tabSource = $tabImg.querySelector("source");
-  const tabImg = $tabImg.querySelector("img");
 
-  tabSource.setAttribute(
-    "srcset",
-    tabPanelContent.images[tabSource.getAttribute("data-id")]
-  );
-  tabImg.setAttribute(
-    "src",
-    tabPanelContent.images[tabImg.getAttribute("data-id")]
-  );
-  tabImg.setAttribute("alt", tabPanelContent.name);
-  $tabImg.setAttribute("class", TAB_ANIMATIONS[page.id].show);
+  renderActiveTabPanelImages(tabPanelContent.images, tabPanelContent.name);
+
   $tabArticle.classList.remove("block-hide");
   $tabArticle.classList.add("block-reveal");
 
@@ -235,6 +228,20 @@ function renderActiveTabPanel() {
   $tabArticle.querySelectorAll("[data-id]").forEach((element) => {
     element.textContent = tabPanelContent[element.getAttribute("data-id")];
   });
+}
+
+function renderActiveTabPanelImages(images, alt) {
+  const page = ROUTES[window.location.pathname].id;
+  const $tabImg = document.getElementById("picture");
+  const tabSource = $tabImg.querySelector("source");
+  const tabImg = $tabImg.querySelector("img");
+
+  tabSource.setAttribute("srcset", images[tabSource.getAttribute("data-id")]);
+  tabImg.setAttribute("src", images[tabImg.getAttribute("data-id")]);
+  tabImg.setAttribute("alt", alt);
+  tabImg.onload = () => {
+    $tabImg.setAttribute("class", TAB_ANIMATIONS[page].show);
+  };
 }
 
 /*---------------------*/

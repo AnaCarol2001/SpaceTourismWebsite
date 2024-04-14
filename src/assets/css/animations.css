@@ -84,7 +84,7 @@ picture.fadeIn {
 }
 
 picture.fadeOut {
-  animation: fadeOff 600ms linear;
+  animation: fadeOff 600ms linear forwards;
 }
 
 @keyframes fade {

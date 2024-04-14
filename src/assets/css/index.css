@@ -307,6 +307,7 @@ body,
 }
 
 .grid-container--technology > .technology-details {
+  max-width: 500px;
   grid-area: info;
 }
 
@@ -352,9 +353,8 @@ body,
     justify-content: flex-start;
     width: 100%;
   }
-
   .grid-container--technology > picture {
-    grid-area: img;
+    min-width: 400px;
   }
 }
 

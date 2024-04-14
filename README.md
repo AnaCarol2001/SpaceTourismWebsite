@@ -30,4 +30,4 @@ Users should be able to:
 - [Typical Device Breakpoints](https://www.w3schools.com/howto/howto_css_media_query_breakpoints.asp)
 - [Location: hash property](https://developer.mozilla.org/en-US/docs/Web/API/Location/hash)
 - [Create Accessible Tabs with HTML, CSS & JS](https://youtu.be/fI9VM5zzpu8?si=17Q90d1hg1MFGewa)
-- [Reset tabindex for initial keyboard navigation *and* scrollIntoView for mouse users] (https://stackoverflow.com/questions/77223568/reset-tabindex-for-initial-keyboard-navigation-and-scrollintoview-for-mouse-us)
+- [Reset tabindex for initial keyboard navigation *and* scrollIntoView for mouse users] (https://stackoverflow.com/questions/77223568/reset-tabindex-for-initial-keyboard-navigation-and-scrollintoview-for-mouse-us) -[Faça Isso Para Melhorar o Carregamento de Imagens no Seu Site](https://youtu.be/4-d_SoCHeWE?si=AWzvhY3dQL2T3Sky)

@@ -7,13 +7,14 @@
     - primary nav;
     - tab list;
     - underline indicators;
-    - number indicators.
+    - number indicators;
+    - loading.
 */
 /* ----------------------------- */
 
 /*large btn*/
 .large-btn {
-  font-size: 2rem;
+  font-size: clamp(1.25rem, 2vw + 0.9rem, 2rem);
   position: relative;
   display: inline-grid;
   z-index: 1;
@@ -66,12 +67,9 @@
   pointer-events: none;
 }
 
-.primary-nav > li {
-  pointer-events: all;
-}
-
 .primary-nav a {
   text-decoration: none;
+  pointer-events: all;
 }
 
 .primary-nav a > span {
@@ -96,7 +94,7 @@
   .primary-nav {
     --underline-gap: 0.5rem;
     position: fixed;
-    z-index: 1000;
+    z-index: 10;
     inset: 0 0 0 30%;
     list-style: none;
     padding: min(20rem, 15vh) 2rem;
@@ -117,7 +115,7 @@
   .mobile-nav-toggle {
     display: block;
     position: absolute;
-    z-index: 2000;
+    z-index: 11;
     right: 1rem;
     top: 2rem;
     background: transparent;
@@ -260,4 +258,54 @@ ul[role="tablist"] a {
   background-color: rgba(var(--clr-white), 1);
   border-color: rgb(var(--clr-white), 1);
   color: rgb(var(--clr-dark));
+}
+
+/* loading */
+.loading {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(var(--clr-dark));
+  z-index: 12;
+  display: grid;
+  place-content: center;
+}
+
+.loading_log {
+  width: 66px;
+  aspect-ratio: 1;
+}
+
+.loading_log circle {
+  fill: #0b0d17;
+}
+.loading_log path {
+  stroke: #fff;
+  animation: strokeAnimation 3s linear infinite alternate;
+}
+
+@keyframes darkToLight {
+  0% {
+    fill: #fff;
+  }
+  100% {
+    fill: #0b0d17;
+  }
+}
+
+@keyframes strokeAnimation {
+  0% {
+    fill: #0b0d17;
+    stroke: #fff;
+    stroke-dashoffset: 25%;
+    stroke-dasharray: 0 22%;
+  }
+  50% {
+    fill: #0b0d17;
+  }
+  80%,
+  100% {
+    stroke-dashoffset: -25%;
+    stroke-dasharray: 22% 0;
+    fill: #fff;
+  }
 }

@@ -1,63 +1,11 @@
-/*---------------------*/
-/* Content: 
-    - Window           
-    - Router
-    - Utilities
-*/
-/*---------------------*/
+import ROUTES, { ROUTE_TAB_ANIMATIONS } from "./js/routes.js";
+import tabAccessibility, { jumpToContent } from "./js/accessibility.js";
 
-import tabAccessibility from "/src/accessibility.js";
-
+// Global Variables
 const $APP = document.getElementById("app");
 const $PRIMARY_NAV = document.getElementById("primary-navigation");
-let tabsPanelContent;
 const PAGES_CSS_CLASSES = ["home", "destination", "crew", "technology"];
-const TAB_ANIMATIONS = {
-  destinations: {
-    hide: "scaleDown",
-    show: "scaleUp",
-  },
-  crew: {
-    hide: "slideRight",
-    show: "slideLeft",
-  },
-  technology: {
-    hide: "fadeOut",
-    show: "fadeIn",
-  },
-};
-const ROUTES = {
-  "/": { id: "home", title: "Home" },
-  "/destinations": {
-    id: "destinations",
-    title: "Destinations",
-    hashes: {
-      "#Moon": { id: "Moon" },
-      "#Mars": { id: "Mars" },
-      "#Europa": { id: "Europa" },
-      "#Titan": { id: "Titan" },
-    },
-  },
-  "/crew": {
-    id: "crew",
-    title: "Crew",
-    hashes: {
-      "#Douglas_Hurley": { id: "Douglas Hurley" },
-      "#Mark_Shuttleworth": { id: "Mark Shuttleworth" },
-      "#Victor_Glover": { id: "Victor Glover" },
-      "#Anousheh_Ansari": { id: "Anousheh Ansari" },
-    },
-  },
-  "/technology": {
-    id: "technology",
-    title: "Technology",
-    hashes: {
-      "#Launch_vehicle": { id: "Launch vehicle" },
-      "#Spaceport": { id: "Spaceport" },
-      "#Space_capsule": { id: "Space capsule" },
-    },
-  },
-};
+let tabsPanelContent;
 
 /*---------------------*/
 /* Window              */
@@ -65,55 +13,80 @@ const ROUTES = {
 
 window.onload = async () => {
   tabsPanelContent = await fetchData("src/data.json");
-  renderPage();
-  document.getElementById("loading").setAttribute("hidden", "true");
+  init();
 };
 
 // Update the UI when user navigates the session history (go back/forward)
 window.onpopstate = () => {
-  renderPage();
+  init();
 };
+
+function init() {
+  const location = window.location;
+  if (isValidRoute({ pathname: location.pathname, hash: location.hash })) {
+    renderPage();
+    document.getElementById("loading").setAttribute("hidden", "true");
+  } else {
+    console.log("An Error occurred");
+  }
+}
+
+/**
+ * Checks if the route exists.
+ * @param {{pathname: string, hash: string}} locationObj
+ * @returns True or throw error
+ */
+function isValidRoute(locationObj) {
+  const { pathname, hash } = locationObj;
+  const route = ROUTES[pathname];
+
+  if (!route) {
+    throw new Error(`Pathname ${pathname} is not a valid route.`);
+  } else if (hash) {
+    if (!Object.hasOwn(route, "hashes") || !route.hashes[hash]) {
+      throw new Error(`Route ${pathname}${hash} does not exist`);
+    }
+    return true;
+  } else if (!hash && Object.hasOwn(route, "hashes")) {
+    throw new Error(`Route ${pathname} missing a hash(#).`);
+  }
+
+  return true;
+}
 
 function renderPage() {
   updatePrimaryNav();
   renderMainContent();
-}
-/*---------------------*/
-/* Router              */
-/*---------------------*/
-
-$PRIMARY_NAV.addEventListener("click", (e) => {
-  e.preventDefault();
-  const target = e.target.closest("a");
-
-  if (!target) return;
-
-  navigateToPage(target.getAttribute("href"));
-});
-
-/**
- * It updates the URL and the content accordingly.
- * @param {{pathname: string, hash: string}} pathObj
- */
-function navigateToPage(pagePath) {
-  if (!ROUTES[pagePath]) {
-    throw new Error(`Route ${pagePath} does not exist.`);
-  }
-  updateURLPathname(pagePath);
-  renderPage();
-  $APP.focus();
 }
 
 function updatePrimaryNav() {
   const currentPath = window.location.pathname;
   $PRIMARY_NAV.querySelector("li.active")?.classList.remove("active");
   $PRIMARY_NAV
-    .querySelector(`a[href="${currentPath}"]`)
+    .querySelector(`a[href*="${currentPath}"]`)
     .parentNode.classList.add("active");
 }
 
-function updateURLPathname(pathname) {
-  window.history.pushState({}, pathname, window.location.origin + pathname);
+$PRIMARY_NAV.addEventListener("click", (e) => {
+  e.preventDefault();
+  const target = e.target.closest("a");
+
+  if (!target) return;
+  const route = target.getAttribute("href").split(/(?=#)/);
+  navigateToPage({ pathname: route[0], hash: route[1] || "" });
+});
+
+/**
+ * If is a valid route it updates the URL and the content accordingly.
+ * @param {{pathname: string, hash: string}} pagePathHash
+ */
+function navigateToPage(pagePathHash) {
+  if (!isValidRoute(pagePathHash)) return console.log("An Error occurred");
+
+  updateURL(pagePathHash.pathname + pagePathHash.hash);
+
+  renderPage();
+  $APP.focus();
 }
 
 function renderMainContent() {
@@ -140,26 +113,21 @@ function updateMainContentHTML(templateId) {
 
   $APP.appendChild(newContent);
 
-  if ($APP.querySelector('#main [role="tablist"]')) {
-    tabListHandler();
-  }
+  tabListHandler();
 }
 
+/**
+ * It adds all the tab functionality (accessibility and eventListener)
+ */
 function tabListHandler() {
   const $tabList = document.querySelector('#main [role = "tablist"]');
+
+  if (!$tabList) return;
 
   tabAccessibility($tabList);
   $tabList.addEventListener("click", switchTabHandle);
 
-  if (window.location.hash) {
-    const tab = $tabList.querySelector(`a[href="${window.location.hash}"]`);
-    updateActiveTab($tabList, tab);
-  } else {
-    const firstTab = $tabList.firstElementChild.querySelector("a");
-    updateURLHash(firstTab.getAttribute("href"));
-    updateActiveTab($tabList, firstTab);
-  }
-  renderActiveTabPanel();
+  renderTab();
 }
 
 function switchTabHandle(e) {
@@ -167,41 +135,53 @@ function switchTabHandle(e) {
   let target = e.target.closest("a");
   if (!target) return;
 
-  updateURLHash(target.getAttribute("href"));
-  updateActiveTab(e.currentTarget, target);
-  animatedRenderActiveTabPanel();
+  navigateToTab(target.getAttribute("href"));
   target.focus();
 }
 
-function updateURLHash(hash) {
-  if (!ROUTES[window.location.pathname].hashes[hash]) {
-    throw new Error(`Route hash ${hash} does not exist`);
-  }
-  const newPathHash = window.location.pathname + hash;
-  window.history.pushState(
-    {},
-    newPathHash,
-    window.location.origin + newPathHash
-  );
+/**
+ * If is a valid hash it updates the URL and the tabPanel accordingly.
+ * @param {string} hash
+ */
+function navigateToTab(hash) {
+  const routeObj = { pathname: window.location.pathname, hash };
+  if (!isValidRoute(routeObj)) return console.log("An Error occurred");
+
+  updateURL(routeObj.pathname + routeObj.hash);
+  animatedTabRender();
 }
 
-function updateActiveTab(tabList, newActiveTab) {
+function renderTab() {
+  updateActiveTab();
+  renderActiveTabPanel();
+}
+
+function animatedTabRender() {
+  updateActiveTab();
+  animatedTabPanelChange();
+}
+
+function updateActiveTab() {
+  const tabList = document.querySelector('#main [role="tablist"]');
   const previousTab = tabList.querySelector('a[aria-selected="true"]');
   previousTab.setAttribute("aria-selected", "false");
   previousTab.setAttribute("tabindex", "-1");
 
+  const newActiveTab = tabList.querySelector(
+    `a[href="${window.location.hash}"]`
+  );
   newActiveTab.setAttribute("aria-selected", "true");
   newActiveTab.setAttribute("tabindex", 0);
 }
 
-function animatedRenderActiveTabPanel() {
+function animatedTabPanelChange() {
   const page = ROUTES[window.location.pathname];
   const $tabArticle = document.querySelector('[data-id="article"]');
   $tabArticle.classList.remove("block-reveal");
   $tabArticle.classList.add("block-hide");
 
   const $tabImg = document.getElementById("picture");
-  $tabImg.setAttribute("class", TAB_ANIMATIONS[page.id].hide);
+  $tabImg.setAttribute("class", ROUTE_TAB_ANIMATIONS[page.id].hide);
   $tabImg.onanimationend = () => {
     renderActiveTabPanel();
   };
@@ -219,15 +199,15 @@ function renderActiveTabPanel() {
 
   renderActiveTabPanelImages(tabPanelContent.images, tabPanelContent.name);
 
-  $tabArticle.classList.remove("block-hide");
-  $tabArticle.classList.add("block-reveal");
-
   $tabArticle.id = tabPanelContent.name;
   $tabArticle.setAttribute("tabindex", 0);
   $tabArticle.setAttribute("role", "tabpanel");
   $tabArticle.querySelectorAll("[data-id]").forEach((element) => {
     element.textContent = tabPanelContent[element.getAttribute("data-id")];
   });
+
+  $tabArticle.classList.remove("block-hide");
+  $tabArticle.classList.add("block-reveal");
 }
 
 function renderActiveTabPanelImages(images, alt) {
@@ -240,13 +220,21 @@ function renderActiveTabPanelImages(images, alt) {
   tabImg.setAttribute("src", images[tabImg.getAttribute("data-id")]);
   tabImg.setAttribute("alt", alt);
   tabImg.onload = () => {
-    $tabImg.setAttribute("class", TAB_ANIMATIONS[page].show);
+    $tabImg.setAttribute("class", ROUTE_TAB_ANIMATIONS[page].show);
   };
 }
 
 /*---------------------*/
 /* Utilities           */
 /*---------------------*/
+
+/**
+ * Updates the URL.
+ * @param {string} pathname
+ */
+function updateURL(pathname) {
+  window.history.pushState({}, pathname, window.location.origin + pathname);
+}
 
 async function fetchData(url) {
   try {
@@ -259,3 +247,5 @@ async function fetchData(url) {
     console.log(error);
   }
 }
+
+document.getElementById("skip").addEventListener("click", jumpToContent);

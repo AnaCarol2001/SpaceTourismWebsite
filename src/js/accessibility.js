@@ -56,7 +56,10 @@ function moveRight(tabList) {
   }
 }
 
-document.getElementById("skip").addEventListener("click", (e) => {
+/**
+ * Configures the skip to content
+ */
+export function jumpToContent(e) {
   e.preventDefault();
   const jumpToContent = document.querySelector(
     `${e.target.getAttribute("href")}`
@@ -66,4 +69,4 @@ document.getElementById("skip").addEventListener("click", (e) => {
   let y = jumpToContent.getBoundingClientRect().top + window.scrollY - 15;
   window.scrollTo(0, y);
   jumpToContent.focus();
-});
+}

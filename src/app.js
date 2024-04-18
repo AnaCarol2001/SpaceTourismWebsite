@@ -13,6 +13,7 @@ let tabsPanelContent;
 
 window.onload = async () => {
   tabsPanelContent = await fetchData("src/data.json");
+
   init();
 };
 
@@ -22,8 +23,9 @@ window.onpopstate = () => {
 };
 
 function init() {
-  const location = window.location;
-  if (isValidRoute({ pathname: location.pathname, hash: location.hash })) {
+  const pathname = getLastPathname();
+  const hash = window.location.hash;
+  if (isValidRoute({ pathname, hash })) {
     renderPage();
     document.getElementById("loading").setAttribute("hidden", "true");
   } else {
@@ -60,7 +62,8 @@ function renderPage() {
 }
 
 function updatePrimaryNav() {
-  const currentPath = window.location.pathname;
+  const currentPath = getLastPathname();
+
   $PRIMARY_NAV.querySelector("li.active")?.classList.remove("active");
   $PRIMARY_NAV
     .querySelector(`a[href*="${currentPath}"]`)
@@ -90,7 +93,7 @@ function navigateToPage(pagePathHash) {
 }
 
 function renderMainContent() {
-  const currentPathname = window.location.pathname;
+  const currentPathname = getLastPathname();
   const route = ROUTES[currentPathname];
 
   updatePageMeta(route.title);
@@ -144,7 +147,7 @@ function switchTabHandle(e) {
  * @param {string} hash
  */
 function navigateToTab(hash) {
-  const routeObj = { pathname: window.location.pathname, hash };
+  const routeObj = { pathname: getLastPathname(), hash };
   if (!isValidRoute(routeObj)) return console.log("An Error occurred");
 
   updateURL(routeObj.pathname + routeObj.hash);
@@ -175,7 +178,7 @@ function updateActiveTab() {
 }
 
 function animatedTabPanelChange() {
-  const page = ROUTES[window.location.pathname];
+  const page = ROUTES[getLastPathname()];
   const $tabArticle = document.querySelector('[data-id="article"]');
   $tabArticle.classList.remove("block-reveal");
   $tabArticle.classList.add("block-hide");
@@ -188,7 +191,7 @@ function animatedTabPanelChange() {
 }
 
 function renderActiveTabPanel() {
-  const page = ROUTES[window.location.pathname];
+  const page = ROUTES[getLastPathname()];
   const tabPanelId = page.hashes[window.location.hash].id;
 
   const tabPanelContent = tabsPanelContent[page.id].find(
@@ -211,7 +214,7 @@ function renderActiveTabPanel() {
 }
 
 function renderActiveTabPanelImages(images, alt) {
-  const page = ROUTES[window.location.pathname].id;
+  const page = ROUTES[getLastPathname()].id;
   const $tabImg = document.getElementById("picture");
   const tabSource = $tabImg.querySelector("source");
   const tabImg = $tabImg.querySelector("img");
@@ -233,7 +236,15 @@ function renderActiveTabPanelImages(images, alt) {
  * @param {string} pathname
  */
 function updateURL(pathname) {
-  window.history.pushState({}, pathname, window.location.origin + pathname);
+  const currentPath = window.location.pathname.split(/(?=\/)/);
+  currentPath.pop();
+  const newPath = currentPath.join("") + pathname;
+
+  window.history.pushState({}, newPath, window.location.origin + newPath);
+}
+
+function getLastPathname() {
+  return window.location.pathname.split(/(?=\/)/).pop();
 }
 
 async function fetchData(url) {

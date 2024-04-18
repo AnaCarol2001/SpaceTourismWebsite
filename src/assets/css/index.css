@@ -39,7 +39,7 @@ body,
     background-position: center center;
     background-image: url(../images/home/background-home-tablet.jpg);
   }
-  .destination {
+  .destinations {
     background-image: url(../images/destination/background-destination-tablet.jpg);
   }
 
@@ -55,7 +55,7 @@ body,
   .home {
     background-image: url(../images/home/background-home-desktop.jpg);
   }
-  .destination {
+  .destinations {
     background-image: url(../images/destination/background-destination-desktop.jpg);
   }
 

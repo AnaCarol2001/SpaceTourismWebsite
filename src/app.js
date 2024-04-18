@@ -4,7 +4,7 @@ import tabAccessibility, { jumpToContent } from "./js/accessibility.js";
 // Global Variables
 const $APP = document.getElementById("app");
 const $PRIMARY_NAV = document.getElementById("primary-navigation");
-const PAGES_CSS_CLASSES = ["home", "destination", "crew", "technology"];
+const PAGES_CSS_CLASSES = ["home", "destinations", "crew", "technology"];
 let tabsPanelContent;
 
 /*---------------------*/

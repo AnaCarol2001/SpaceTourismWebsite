@@ -32,8 +32,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [URL ]()
-- Live Site URL: [URL ]()
+- Solution URL: [https://github.com/AnaCarol2001/SpaceTourismWebsite](https://github.com/AnaCarol2001/SpaceTourismWebsite)
+- Live Site URL: [https://anacarol2001.github.io/SpaceTourismWebsite/](https://anacarol2001.github.io/SpaceTourismWebsite/)
 
 ## My process
 

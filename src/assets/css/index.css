@@ -6,6 +6,7 @@
       - DESTINATION LAYOUT;
       - CREW LAYOUT;
       - TECHNOLOGY LAYOUT
+    - Footer
 */
 
 /* ----------------------------- */
@@ -372,4 +373,13 @@ body,
     flex-direction: column;
     width: 90px;
   }
+}
+
+/*  Footer  */
+
+.footer {
+  text-align: center;
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  box-shadow: 0px -1px 12px rgb(var(--clr-accent), 15%);
 }
